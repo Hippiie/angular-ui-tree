@@ -66,13 +66,16 @@
           // find the scope of it's parent node
           $scope.$parentNodeScope = treeNodesCtrl.scope.$nodeScope;
           // modelValue for current node
-          $scope.$modelValue = treeNodesCtrl.scope.$modelValue[$scope.$index];
-          $scope.$parentNodesScope = treeNodesCtrl.scope;
-          treeNodesCtrl.scope.initSubNode($scope); // init sub nodes
-
-          $element.on('$destroy', function () {
-            treeNodesCtrl.scope.destroySubNode($scope); // destroy sub nodes
-          });
+          // $modelValue must be an object 
+          if(typeof treeNodesCtrl.scope.$modelValue === 'object') {
+            $scope.$modelValue = treeNodesCtrl.scope.$modelValue[$scope.$index];
+            $scope.$parentNodesScope = treeNodesCtrl.scope;
+            treeNodesCtrl.scope.initSubNode($scope); // init sub nodes
+  
+            $element.on('$destroy', function () {
+              treeNodesCtrl.scope.destroySubNode($scope); // destroy sub nodes
+            });
+          }
         };
 
         $scope.index = function () {
